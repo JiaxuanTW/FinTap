@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FinTap</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style> @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap'); </style>
+</head>
+<body class="d-flex flex-column vh-100 bg-dark text-white align-items-center justify-content-center">
+<div class="display-1 mb-3" style="font-family: 'Dancing Script', cursive;">FinTap</div>
+<main class="container">
+    <form action="{{ url_for('predict') }}" method="post">
+        <div class="input-group flex-nowrap mx-auto" style="max-width: 400px">
+            <input name="code" type="text" class="form-control" placeholder="請輸入股票代號" aria-label="code"
+                   autocomplete="off" required>
+            <span class="input-group-text">.TW</span>
+            <button class="btn btn-primary" type="submit" id="submitBtn">送出</button>
+        </div>
+    </form>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+</body>
+</html>
