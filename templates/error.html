@@ -9,17 +9,9 @@
 </head>
 <body class="d-flex flex-column bg-dark text-white align-items-center">
 <a href="{{ url_for('home') }}" class="text-decoration-none text-white">
-    <div class="display-4 my-3" style="font-family: 'Dancing Script', cursive;">FinTap - {{ code }}.TW</div>
+    <div class="display-4 my-3" style="font-family: 'Dancing Script', cursive;">FinTap</div>
 </a>
-<div class="fs-3 mb-5">股票代號 {{ code }}.TW</div>
-<main class="container mb-5">
-    <div class="row justify-content-center">
-        <img class="col-lg-6 mb-2" src="{{ model_fig }}"/>
-        <img class="col-lg-6 mb-2" src="{{ eval_predict_fig }}"/>
-        <img class="col-lg-6 mb-2" src="{{ prior_analysis_fig }}"/>
-        <img class="col-lg-6 mb-2" src="{{ future_predict_fig }}"/>
-    </div>
-</main>
+<div class="fs-3 mb-5">找不到代號為 {{ code }}.TW 的股票！</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>

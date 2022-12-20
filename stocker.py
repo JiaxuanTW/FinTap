@@ -258,6 +258,7 @@ class Stocker:
         matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
         # Adjust a few parameters to liking
+        matplotlib.rcParams['font.family'] = ['Microsoft JhengHei']
         matplotlib.rcParams['figure.figsize'] = (8, 5)
         matplotlib.rcParams['axes.labelsize'] = 10
         matplotlib.rcParams['xtick.labelsize'] = 8
@@ -387,18 +388,16 @@ class Stocker:
 
         # Plot set-up
         self.reset_plot()
-        plt.style.use('fivethirtyeight')
-        fig, ax = plt.subplots(1, 1)
-
+        fig, ax = plt.subplots(1, 1, constrained_layout=True)
         # Actual observations
-        ax.plot(train['ds'], train['y'], 'ko', ms=4, label='Observations')
+        ax.plot(train['ds'], train['y'], 'ko', ms=4, label='實際股價')
         color_dict = {prior: color for prior, color in zip(changepoint_priors, colors)}
 
         # Plot each of the changepoint predictions
         for prior in changepoint_priors:
             # Plot the predictions themselves
             ax.plot(predictions['ds'], predictions['%.3f_yhat' % prior], linewidth=1.2,
-                    color=color_dict[prior], label='%.3f prior scale' % prior)
+                    color=color_dict[prior], label='%.3f 先驗分布' % prior)
 
             # Plot the uncertainty interval
             ax.fill_between(predictions['ds'].dt.to_pydatetime(), predictions['%.3f_yhat_upper' % prior],
@@ -408,10 +407,11 @@ class Stocker:
 
         # Plot labels
         plt.legend(loc=2, prop={'size': 10})
-        plt.xlabel('Date')
-        plt.ylabel('Stock Price ($)')
-        plt.title('Effect of Changepoint Prior Scale')
-        plt.show()
+        plt.xlabel('日期', size=14, family='Microsoft JhengHei')
+        plt.ylabel('股價', size=14, family='Microsoft JhengHei')
+        plt.grid(linewidth=0.6, alpha=0.6)
+        plt.title('轉折點先驗分布大小之影響', size=22, family='Microsoft JhengHei')
+        return fig
 
     # Basic prophet model for specified number of days
     def create_prophet_model(self, days=0, resample=False):
@@ -437,31 +437,32 @@ class Stocker:
             print('Predicted Price on {} = ${:.2f}'.format(
                 future['ds'].iloc[len(future) - 1], future['yhat'].iloc[len(future) - 1]))
 
-            title = '%s Historical and Predicted Stock Price' % self.symbol
+            # title = '%s Historical and Predicted Stock Price' % self.symbol
+            title = '歷史及模型預測股價'
         else:
             title = '%s Historical and Modeled Stock Price' % self.symbol
 
         # Set up the plot
-        fig, ax = plt.subplots(1, 1)
+        fig, ax = plt.subplots(1, 1, constrained_layout=True)
 
         # Plot the actual values
         ax.plot(stock_history['ds'], stock_history['y'], 'ko-',
-                linewidth=1.4, alpha=0.8, ms=1.8, label='Observations')
+                linewidth=1.4, alpha=0.8, ms=1.8, label='實際股價')
 
         # Plot the predicted values
         ax.plot(future['ds'], future['yhat'], 'forestgreen',
-                linewidth=2.4, label='Modeled')
+                linewidth=2.4, label='預測股價')
 
         # Plot the uncertainty interval as ribbon
         ax.fill_between(future['ds'].dt.to_pydatetime(), future['yhat_upper'], future['yhat_lower'], alpha=0.3,
-                        facecolor='g', edgecolor='k', linewidth=1.4, label='Confidence Interval')
+                        facecolor='g', edgecolor='k', linewidth=1.4, label='信賴區間')
 
         # Plot formatting
         plt.legend(loc=2, prop={'size': 10})
-        plt.xlabel('Date')
-        plt.ylabel('Price $')
+        plt.xlabel('日期', size=14, family='Microsoft JhengHei')
+        plt.ylabel('股價', size=14, family='Microsoft JhengHei')
         plt.grid(linewidth=0.6, alpha=0.6)
-        plt.title(title)
+        plt.title(title, size=22, family='Microsoft JhengHei')
         # plt.show()
 
         return model, future, fig
@@ -557,35 +558,35 @@ class Stocker:
             self.reset_plot()
 
             # Set up the plot
-            fig, ax = plt.subplots(1, 1)
+            fig, ax = plt.subplots(1, 1, constrained_layout=True)
 
             # Plot the actual values
             ax.plot(train['ds'], train['y'], 'ko-', linewidth=1.4,
-                    alpha=0.8, ms=1.8, label='Observations')
+                    alpha=0.8, ms=1.8, label='訓練實際股價')
             ax.plot(test['ds'], test['y'], 'ko-', linewidth=1.4,
-                    alpha=0.8, ms=1.8, label='Observations')
+                    alpha=0.8, ms=1.8, label='測試實際股價')
 
             # Plot the predicted values
             ax.plot(future['ds'], future['yhat'], 'navy',
-                    linewidth=2.4, label='Predicted')
+                    linewidth=2.4, label='預測股價')
 
             # Plot the uncertainty interval as ribbon
             ax.fill_between(future['ds'].dt.to_pydatetime(), future['yhat_upper'], future['yhat_lower'], alpha=0.6,
-                            facecolor='gold', edgecolor='k', linewidth=1.4, label='Confidence Interval')
+                            facecolor='gold', edgecolor='k', linewidth=1.4, label='信賴區間')
 
             # Put a vertical line at the start of predictions
             plt.vlines(x=min(test['ds']), ymin=min(future['yhat_lower']), ymax=max(future['yhat_upper']), colors='r',
-                       linestyles='dashed', label='Prediction Start')
+                       linestyles='dashed', label='預測起始點')
 
             # Plot formatting
-            plt.legend(loc=2, prop={'size': 8})
-            plt.xlabel('Date')
-            plt.ylabel('Price $')
+            plt.legend(loc=2, prop={'size': 10})
+            plt.xlabel('日期', size=14, family='Microsoft JhengHei')
+            plt.ylabel('股價', size=14, family='Microsoft JhengHei')
             plt.grid(linewidth=0.6, alpha=0.6)
 
-            plt.title('{} Model Evaluation from {} to {}.'.format(self.symbol,
-                                                                  start_date, end_date))
-            # plt.show()
+            # plt.title('{} Model Evaluation from {} to {}.'.format(self.symbol, start_date, end_date))
+            plt.title('從 {} 到 {} 之模型預測評估'.format(start_date.date(), end_date.date()), size=22,
+                      family='Microsoft JhengHei')
             return fig
 
         # If a number of shares is specified, play the game
@@ -677,8 +678,7 @@ class Stocker:
             plt.title('Predicted versus Buy and Hold Profits')
             plt.legend(loc=2, prop={'size': 10})
             plt.grid(alpha=0.2)
-            # plt.show()
-            return fig
+            plt.show()  # Here may throw an error since no fig is returned
 
     def retrieve_google_trends(self, search, date_range):
         # Set up the trend fetching object
@@ -880,34 +880,35 @@ class Stocker:
         self.reset_plot()
 
         # Set up plot
-        plt.style.use('fivethirtyeight')
         matplotlib.rcParams['axes.labelsize'] = 10
         matplotlib.rcParams['xtick.labelsize'] = 8
         matplotlib.rcParams['ytick.labelsize'] = 8
         matplotlib.rcParams['axes.titlesize'] = 12
 
         # Plot the predictions and indicate if increase or decrease
-        fig, ax = plt.subplots(1, 1, figsize=(8, 6))
+        fig, ax = plt.subplots(1, 1, constrained_layout=True)
 
         # Plot the estimates
         ax.plot(future_increase['Date'], future_increase['estimate'],
-                'g^', ms=12, label='Pred. Increase')
+                'g^', ms=12, label='預測上升')
         ax.plot(future_decrease['Date'], future_decrease['estimate'],
-                'rv', ms=12, label='Pred. Decrease')
+                'rv', ms=12, label='預測下降')
 
         # Plot errorbars
         ax.errorbar(future['Date'].dt.to_pydatetime(), future['estimate'],
                     yerr=future['upper'] - future['lower'],
                     capthick=1.4, color='k', linewidth=2,
-                    ecolor='darkblue', capsize=4, elinewidth=1, label='Pred with Range')
+                    ecolor='darkblue', capsize=4, elinewidth=1, label='預測股價範圍')
 
         # Plot formatting
         plt.legend(loc=2, prop={'size': 10})
-        plt.xticks(rotation='45')
-        plt.ylabel('Predicted Stock Price (US $)')
-        plt.xlabel('Date')
-        plt.title('Predictions for %s' % self.symbol)
-        plt.show()
+        # plt.xticks(rotation='45')
+        plt.ylabel('預測股價', size=14, family='Microsoft JhengHei')
+        plt.xlabel('日期', size=14, family='Microsoft JhengHei')
+        plt.grid(linewidth=0.6, alpha=0.6)
+        # plt.title('Predictions for %s' % self.symbol)
+        plt.title('未來股價預測', size=22, family='Microsoft JhengHei')
+        return fig
 
     def changepoint_prior_validation(self, start_date=None, end_date=None, changepoint_priors=[0.001, 0.05, 0.1, 0.2]):
         # Default start date is two years before end of data
