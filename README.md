@@ -2,8 +2,8 @@
 The term project of Big Data Analytics. A simple web app for stock price prediction.
 
 ## Installation
-Step 1. Create a conda enviroment. (We have tested on Python 3.9)  
-Step 2. Install the following libaries.
+Step 1. Create a conda environment. (We have tested on Python 3.9)  
+Step 2. Install the following libraries.
 ```
 conda install -c conda-forge prophet
 pip install plotly, pytrends, yfinance, Flask
