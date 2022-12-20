@@ -1,5 +1,5 @@
 # FinTap
-The term project of Big Data Analytics. A simple web app for stock price prediction.
+The term project for Big Data Analytics. A simple web app for stock price prediction.
 
 | Screenshot |
 | --- |
