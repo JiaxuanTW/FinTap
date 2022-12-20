@@ -8,7 +8,7 @@ Step 2. Install the following libraries.
 conda install -c conda-forge prophet
 pip install plotly, pytrends, yfinance, Flask
 ```
-Step 3. Run `python app.py`
+Step 3. Run `python app.py`.
 
 ## Reference
 * [Stocker](https://github.com/WillKoehrsen/Data-Analysis/tree/master/stocker)
